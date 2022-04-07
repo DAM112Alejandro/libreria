@@ -1,0 +1,274 @@
+<header>
+    <ul>
+        <li id="Libro" class="mx-5" style="display: inline;">Categorias</li>
+        <!-- input -->
+        <desy-button id="añadir" (click)="onOpenModal(null,'add')" [classes]="'d-flex align-items-center'"
+            html="Añadir categoría"></desy-button>
+        <form class="form-inline my-2 my-lg-0 float-right d-flex align-items-center">
+            <!-- searchbar -->
+            <div class="relative">
+                <!-- label -->
+                <label class="block sr-only" for="searchbar-2">Buscar</label>
+
+                <!-- /label -->
+                <desy-input
+                    [classes]="'d-flex align-items-center c-input block mt-sm pr-12 border-black rounded font-semibold placeholder-neutral-dark focus:border-black focus:shadow-outline-focus-input focus:ring-4 focus:ring-warning-base disabled:bg-neutral-light disabled:border-neutral-base w-full'"
+                    id="searchbar-2" name="searchbar-2" placeholder="Buscar en este sitio"
+                    (ngModelChange)="searchEmployees(key.value)" #key="ngModel" ngModel></desy-input>
+                <desy-button
+                    [classes]="'absolute top-2 right-0 m-sm p-0.5 text-primary-base hover:text-primary-dark focus:bg-warning-base focus:outline-none focus:shadow-outline-focus'">
+                    <span class="sr-only">Buscar</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1.375em" height="1.375em"
+                        aria-hidden="true">
+                        <path
+                            d="M23.498 23.487a1.713 1.713 0 000-2.421l-4.572-4.575a.43.43 0 01-.062-.539 10.283 10.283 0 10-2.911 2.911.43.43 0 01.539.055l4.574 4.574a1.712 1.712 0 002.433-.005zM3.451 10.289a6.85 6.85 0 116.85 6.85 6.85 6.85 0 01-6.85-6.85z"
+                            fill="currentColor" />
+                    </svg>
+                </desy-button>
+            </div>
+            <!-- /searchbar -->
+
+        </form>
+    </ul>
+</header>
+
+<div id="main-container">
+
+    <div class="flex flex-wrap">
+        <desy-item [classes]="'m-1 flex flex-wrap p-base bg-white border border-neutral-base rounded'"
+            *ngFor="let categoria of categorias">
+            <desy-title></desy-title>
+            <desy-description>
+                <h5>ID:</h5>
+                <p>{{categoria.id}}</p>
+                <h5>NOMBRE:</h5>
+                <p>{{categoria.descripcion}}</p> <br>
+                <div>
+                    <!-- button -->
+                    <desy-button draggable="false" (click)="onOpenModal(categoria,'delete')"
+                        [classes]="'c-button--alert m-1  c-button--primary c-button--sm align-bottom self-center my-1'">
+                        <i class="fa-solid fa-trash"></i>
+                    </desy-button>
+                    <!-- button -->
+                    <desy-button (click)="onOpenModal(categoria,'edit')" draggable="false"
+                        [classes]="'c-button c-button--primary c-button--sm align-bottom self-center my-1 '">
+                        <i class="fa fa-pencil"></i>
+                    </desy-button>
+                </div>
+            </desy-description>
+        </desy-item>
+        <!-- item -->
+
+    </div>
+
+
+    <!--Update Categoria-->
+    <!--<div class="modal fade" id="updateCategoriaModal" tabindex="-1" role="dialog" aria-labelledby="editCategoriaModalLabel"
+        aria-hidden="true" *ngIf="updatecategoria">
+
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editCategoriaModalLabel">Edit Categoria {{updatecategoria?.descripcion}}
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form #editForm="ngForm">
+                        <div class="form-group">
+                            <label for="descripcion">Descripcion</label>
+                            <input type="text" [(ngModel)]="updatecategoria.descripcion" name="descripcion" class="form-control"
+                               id="descripcion" placeholder="descripcion">
+                         </div>
+       
+                        <div class="modal-footer">
+                            <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
+                            <button (click)="onUpdateCategoria(updatecategoria)" data-dismiss="modal"
+                                class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <!--Delete Categoria-->
+    <!--<div class="modal fade" id="deleteCategoriaModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="deleteModelLabel">Delete Autor</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+            </div>
+            <div class="modal-body">
+               <p>Are you sure you want to delete categoria {{deletecategoria?.descripcion}}?</p>
+               <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                  <button (click)="onDeleteCategoria(deletecategoria.id)" class="btn btn-danger"
+                     data-dismiss="modal">Yes</button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>-->
+    <!--Add Categoria-->
+    <!-- <div class="modal fade" id="addCategoriaModal" tabindex="-1" role="dialog" aria-labelledby="addCategoriaModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addCategoriaModalLabel">Add Categoria</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form #addForm="ngForm" (ngSubmit)="AddCategoria(addForm)">
+                        <div class="form-group">
+                            <label for="descripcion">Descripcion</label>
+                            <input type="text" ngModel name="descripcion" class="form-control" id="descripcion"
+                                placeholder="Descripcion" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="add-categoria-form" class="btn btn-secondary"
+                                data-dismiss="modal">Close</button>
+                            <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary">Save
+                                changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    <!-- Delete Modal -->
+    <div class="modal" id="deleteCategoriaModal" tabindex="-1" role="dialog" aria-labelledby="deleteCategoriaModalLabel"
+        aria-hidden="true" *ngIf="deletecategoria">
+        <div id="icon-type-A-example"
+            class="relative max-w-lg mx-auto p-base lg:p-lg border border-neutral-base rounded bg-white">
+            <div class="flex justify-center p-base">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 140" width="1em" height="1em"
+                    class="block w-16 h-16 text-alert-light" focusable="false" aria-hidden="true" role="presentation">
+                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                        stroke-width="1.5">
+                        <path
+                            d="M100.625 122.5h-61.25a8.75 8.75 0 01-8.75-8.75V35h78.75v78.75a8.75 8.75 0 01-8.75 8.75zM56.875 96.25v-35M83.125 96.25v-35M13.125 35h113.75M83.125 17.5h-26.25a8.75 8.75 0 00-8.75 8.75V35h43.75v-8.75a8.75 8.75 0 00-8.75-8.75z"
+                            stroke-width="8.749995" />
+                    </g>
+                </svg>
+            </div>
+            <h2 id="label-icon-type-A-example" class="c-h2 px-base text-center focus:outline-none focus:underline">
+                Borrar categoria {{deletecategoria?.descripcion}} </h2>
+            <p class="c-p my-base text-center"></p>
+            <div class="flex flex-wrap gap-sm w-full justify-between">
+                <div class="mt-sm">
+                    <div class="flex flex-wrap gap-sm w-full justify-between">
+                        <div class="mt-sm">
+                            <!-- button -->
+                            <desy-button [classes]="'c-button'" data-dismiss="modal" html="Cancelar">
+                                <span class="sr-only">y cerrar la ventana modal</span>
+                            </desy-button><!-- /button -->
+                        </div>
+                        <div class="mt-sm">
+
+
+                            <!-- button -->
+                            <desy-button (click)="onDeleteCategoria(deletecategoria.id)" data-dismiss="modal"
+                                [classes]="'c-button c-button--alert'" html="Si">
+
+                            </desy-button><!-- /button -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Update Modal -->
+    <div class="modal" id="updateCategoriaModal" tabindex="-1" role="dialog" aria-labelledby="updateCategoriaModalLabel"
+        *ngIf="updatecategoria">
+        <div id="secondary-action-example"
+            class="relative max-w-lg mx-auto p-base lg:p-lg border border-neutral-base rounded bg-white">
+            <h2 id="label-secondary-action-example" class="c-h2 px-base text-center focus:outline-none focus:underline">
+                Editar {{updatecategoria?.descripcion}} </h2>
+            <div class="c-paragraph-base my-base text-center">
+                <!-- input -->
+                <div class="c-form-group">
+                    <form #addForm="ngForm" (ngSubmit)="AddCategoria(addForm)">
+                        <!-- label 
+                        <label class="block" for="descripcion">Descripcion</label>-->
+
+                        <!-- /label -->
+                        <desy-input
+                            [classes]="'w-100 c-input block mt-sm border-black rounded font-semibold placeholder-neutral-dark focus:border-black focus:shadow-outline-focus-input focus:ring-4 focus:ring-warning-base disabled:bg-neutral-light disabled:border-neutral-base'"
+                            id="descripcion" name="descripcion" ngModel placeholder="descripcion..."
+                            [(ngModel)]="updatecategoria.descripcion"></desy-input>
+
+
+                        <!-- /input -->
+
+                        <div class="flex flex-wrap gap-sm w-full justify-between">
+                            <div class="mt-sm">
+
+
+                                <!-- button -->
+                                <desy-button (click)="onUpdateCategoria(updatecategoria)" data-dismiss="modal"
+                                    [classes]="'c-button c-button--primary'" html=" Editar categoria"></desy-button>
+                                <!-- /button -->
+                            </div>
+                            <div class="mt-sm">
+
+
+                                <!-- button -->
+                                <desy-button [classes]="'c-button'" data-dismiss="modal" html="Cancelar">
+                                    <span class="sr-only">y cerrar la ventana modal</span>
+                                </desy-button><!-- /button -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Add Modal -->
+<div class="modal" id="addCategoriaModal" tabindex="-1" role="dialog" aria-labelledby="updateCategoriaModalLabel">
+    <div id="secondary-action-example"
+        class="relative max-w-lg mx-auto p-base lg:p-lg border border-neutral-base rounded bg-white">
+        <h2 id="label-secondary-action-example" class="c-h2 px-base text-center focus:outline-none focus:underline"
+            tabindex="-1">Añadir categoria</h2>
+        <div class="c-paragraph-base my-base text-center">
+            <!-- input -->
+            <div class="c-form-group">
+                <form #addForm="ngForm" (ngSubmit)="AddCategoria(addForm)">
+
+                    <desy-input id="descripcion" [classes]="'w-100'" ngModel name="descripcion"
+                        placeholder="Descripcion...">
+                    </desy-input>
+
+                    <!-- /input -->
+
+                    <div class="flex flex-wrap gap-sm w-full justify-between">
+                        <div class="mt-sm">
+
+
+                            <!-- button -->
+                            <desy-button [disabled]="addForm.invalid" [classes]="'btn btn-primary'"
+                                html="Añadir categoria">
+                            </desy-button><!-- /button -->
+                        </div>
+                        <div class="mt-sm">
+
+
+                            <!-- button -->
+                            <desy-button html="Cancelar" data-dismiss="modal" [classes]="'c-button'"></desy-button>
+                            <!-- /button -->
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

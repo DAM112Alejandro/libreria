@@ -1,0 +1,227 @@
+<header>
+   <ul>
+      <li id="Libro" class="mx-5">Autores</li>
+      <!-- input -->
+      <desy-button id="añadir" (click)="onOpenModal(null,'add')"
+         [classes]="'d-flex float-right mt-2 mx-1  align-items-center'" html="Añadir autor"></desy-button>
+      <form class="form-inline my-2 my-lg-0 float-right d-flex align-items-center">
+         <!-- searchbar -->
+         <div class="relative">
+            <!-- label -->
+            <label class="block sr-only" for="searchbar-2">Buscar</label>
+
+            <!-- /label -->
+            <desy-input
+               [classes]="'d-flex align-items-center c-input block mt-sm pr-12 border-black rounded font-semibold placeholder-neutral-dark focus:border-black focus:shadow-outline-focus-input focus:ring-4 focus:ring-warning-base disabled:bg-neutral-light disabled:border-neutral-base w-full'"
+               id="searchbar-2" name="searchbar-2" placeholder="Buscar en este sitio"
+               (ngModelChange)="searchEmployees(key.value)" #key="ngModel" ngModel></desy-input>
+            <desy-button
+               [classes]="'absolute top-2 right-0 m-sm p-0.5 text-primary-base hover:text-primary-dark focus:bg-warning-base focus:outline-none focus:shadow-outline-focus'">
+               <span class="sr-only">Buscar</span>
+               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="1.375em" height="1.375em"
+                  aria-hidden="true">
+                  <path
+                     d="M23.498 23.487a1.713 1.713 0 000-2.421l-4.572-4.575a.43.43 0 01-.062-.539 10.283 10.283 0 10-2.911 2.911.43.43 0 01.539.055l4.574 4.574a1.712 1.712 0 002.433-.005zM3.451 10.289a6.85 6.85 0 116.85 6.85 6.85 6.85 0 01-6.85-6.85z"
+                     fill="currentColor" />
+               </svg>
+            </desy-button>
+         </div>
+         <!-- /searchbar -->
+
+      </form>
+   </ul>
+
+</header>
+<div class="container" id="main-container">
+   <div class="flex flex-wrap">
+      <desy-item [classes]="'m-1 flex flex-wrap p-base bg-white border border-neutral-base rounded'"
+         *ngFor="let autor of autors">
+         <desy-title></desy-title>
+         <desy-description>
+            <h5>NOMBRE:</h5>
+            <p>{{autor.nombre}} {{autor.apellido1}} {{autor.apellido2? autor.apellido1:''}}</p>
+            <h5>DNI:</h5>
+            <p>{{autor.dni}}</p>
+            <h5>TELEFONO:</h5>
+            <p>{{autor.telefono? autor.telefono:'Desconocido'}}</p>
+            <h5>EMAIL:</h5>
+            <p>{{autor.email? autor.email:'Desconocido'}}</p>
+            <div class="card-body">
+               <div class="float-right btn-group btn-group-sm">
+                  <desy-button draggable="false" (click)="onOpenModal(autor,'delete')"
+                     [classes]="'c-button--alert m-1  c-button--primary c-button--sm align-bottom self-center my-1'">
+                     <i class="fa-solid fa-trash"></i>
+                  </desy-button>
+                  <desy-button (click)="onOpenModal(autor,'edit')" draggable="false"
+                     [classes]="'c-button c-button--primary c-button--sm align-bottom self-center my-1 '">
+                     <i class="fa fa-pencil"></i>
+                  </desy-button>
+               </div>
+            </div>
+            
+         </desy-description>
+      </desy-item>
+   </div>
+
+
+   <!--Update Autor-->
+   <div class="modal fade" id="updateAutorModal" tabindex="-1" role="dialog" aria-labelledby="AutorEditModalLabel"
+      aria-hidden="true" *ngIf="updateautor">
+      <div class="modal-dialog" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="updateAutorModalLabel">Edit Autor {{updateautor?.nombre}}</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+            </div>
+            <div class="modal-body">
+               <form #editForm="ngForm">
+                  <div class="form-group">
+                     <label for="name">Dni</label>
+                     <input type="text" [(ngModel)]="updateautor.dni" name="DNI" class="form-control" id="dni"
+                        aria-describedby="emailHelp" placeholder="Name">
+                  </div>
+                  <div class="form-group">
+                     <label for="nombre">Nombre </label>
+                     <input type="text" [(ngModel)]="updateautor.nombre" name="nombre" class="form-control" id="nombre"
+                        placeholder="nombre">
+                  </div>
+                  <div class="form-group">
+                     <label for="apellido1">apellido1 </label>
+                     <input type="text" [(ngModel)]="updateautor.apellido1" name="apellido1" class="form-control"
+                        id="apellido1" placeholder="apellido1">
+                  </div>
+                  <div class="form-group">
+                     <label for="apellido2">apellido2 </label>
+                     <input type="text" [(ngModel)]="updateautor.apellido2" name="apellido2" class="form-control"
+                        id="apellido2" placeholder="apellido2">
+                  </div>
+                  <div class="form-group">
+                     <label for="Phone">Phone </label>
+                     <input type="number" [(ngModel)]="updateautor.telefono" name="phone" class="form-control"
+                        id="phone" placeholder="Phone">
+                  </div>
+                  <div class="form-group">
+                     <label for="email">Email</label>
+                     <input type="email" [(ngModel)]="updateautor.email" name="email" class="form-control" id="jobTitle"
+                        placeholder="Job title">
+                  </div>
+
+                  <div class="modal-footer">
+                     <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
+                     <button (click)="onUpdateautors(updateautor)" data-dismiss="modal" class="btn btn-primary">Save
+                        changes</button>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!--Delete Autor-->
+   <desy-modal [id]="'deleteAutorModal'" [classes]="'modal position-fixed'" [tabindex]="'-1'" [role]="'dialog'"
+      [ariaLabelledBy]="'addAutorModalLabel'" [ariaHidden]="'true'">
+      <desy-title>Elimina el autor {{deleteautor?.nombre}} {{deleteautor?.apellido1}}</desy-title>
+      <desy-description>
+         <div class="mt-sm">
+            <!-- button -->
+            <desy-button [classes]="'c-button'" data-dismiss="modal" html="Cancelar">
+               <span class="sr-only">y cerrar la ventana modal</span>
+            </desy-button><!-- /button -->
+            <div class="mt-sm">
+               <!-- button -->
+               <desy-button (click)="onDeleteAutor(deleteautor.dni)" data-dismiss="modal"
+                  [classes]="'c-button c-button--alert'" html="Eliminar">
+
+               </desy-button><!-- /button -->
+            </div>
+         </div>
+      </desy-description>
+
+   </desy-modal>
+   <!--Add Autor-->
+   <desy-modal [id]="'addAutorModal'" [classes]="'modal'" [tabindex]="'-1'" [role]="'dialog'"
+      [ariaLabelledBy]="'addAutorModalLabel'" [ariaHidden]="'true'">
+      <desy-title>Añade un nuevo autor</desy-title>
+      <desy-description>
+         <form #addForm="ngForm" (ngSubmit)="AddAutor(addForm)">
+            <desy-label for="dni">Dni</desy-label>
+            <desy-input id="dni" [classes]="'w-100'" ngModel name="dni" placeholder="Dni...">
+            </desy-input><br>
+            <desy-label for="nombre">Nombre</desy-label>
+            <desy-input id="nombre" [classes]="'w-100'" ngModel name="nombre" placeholder="nombre...">
+            </desy-input><br>
+            <desy-label for="apellido1">Apellido1</desy-label>
+            <desy-input id="apellido1" [classes]="'w-100'" ngModel name="apellido1" placeholder="apellido1...">
+            </desy-input><br>
+            <desy-label for="apellido2">Apellido2</desy-label>
+            <desy-input id="apellido2" [classes]="'w-100'" ngModel name="apellido2" placeholder="apellido2...">
+            </desy-input><br>
+            <desy-label for="telefono">Telefono</desy-label>
+            <desy-input id="telefono" [classes]="'w-100'" ngModel name="telefono" placeholder="telefono...">
+            </desy-input><br>
+            <desy-label for="email">Email</desy-label>
+            <desy-input id="email" [classes]="'w-100'" ngModel name="email" placeholder="email...">
+            </desy-input><br>
+            <desy-button [disabled]="addForm.invalid" [classes]="'btn btn-primary'" html="Añadir Autor"></desy-button>
+            <!-- button -->
+            <desy-button html="Cancelar" data-dismiss="modal" [classes]="' ml-20   c-button'"></desy-button>
+            <!-- /button -->
+         </form>
+
+      </desy-description>
+   </desy-modal>
+
+   <!--<div class="modal" id="addAutorModal" tabindex="-1" role="dialog" aria-labelledby="addAutorModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="addAutorModalLabel">Add Autor</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+            </div>
+            <div class="modal-body">
+               <form #addForm="ngForm" (ngSubmit)="AddAutor(addForm)">
+                  <div class="form-group">
+                     <label for="dni">Dni</label>
+                     <input type="text" ngModel name="dni" class="form-control" id="dni" placeholder="dni" required>
+                  </div>
+                  <div class="form-group">
+                     <label for="name">Name</label>
+                     <input type="text" ngModel name="nombre" class="form-control" id="nombre" placeholder="Name"
+                        required>
+                  </div>
+                  <div class="form-group">
+                     <label for="apellido1">Apellido1</label>
+                     <input type="text" ngModel name="apellido1" class="form-control" id="apellido1"
+                        placeholder="Apellido1" required>
+                  </div>
+                  <div class="form-group">
+                     <label for="apellido2">Apellido2</label>
+                     <input type="text" ngModel name="apellido2" class="form-control" id="apellido2"
+                        placeholder="Apellido2" required>
+                  </div>
+                  <div class="form-group">
+                     <label for="telefono">Telefono</label>
+                     <input type="number" ngModel name="telefono" class="form-control" id="telefono"
+                        placeholder="Telefono" required>
+                  </div>
+                  <div class="form-group">
+                     <label for="email">Email</label>
+                     <input type="text" ngModel name="email" class="form-control" id="email" placeholder="email"
+                        required>
+                  </div>
+                  <div class="modal-footer">
+                     <button type="button" id="add-autor-form" class="btn btn-secondary"
+                        data-dismiss="modal">Close</button>
+                     <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary">Save changes</button>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>-->
+   <desy-footer></desy-footer>
+</div>
